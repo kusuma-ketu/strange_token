@@ -35,7 +35,6 @@ contract StrangeToken{
         return true;
     }
 
-
     function approve(address spender, uint256 value) public returns (bool success) {
         allowance[msg.sender][spender] = value;
         emit Approval(msg.sender, spender, value);
@@ -44,8 +43,7 @@ contract StrangeToken{
     function getBalance(address _addressOwner) public view returns (uint256) {
         return balanceOf[_addressOwner];
     }
-
-    //totalsupply
+    
     function getTotalSupply() public view returns (uint256) {
         return totalSupply;
     }
@@ -53,9 +51,17 @@ contract StrangeToken{
         balanceOf[msg.sender] += _amount;
         totalSupply += _amount;
     }
-    //mint
-    //allowance
+
+    function grantAllowance (address owner, address spender) public view returns (uint256) {
+        return allowance[owner][spender];
+    } 
     //burn
+    function burn(uint256 _amount) public {
+        require(_amount <= balanceOf[msg.sender]);
+        balanceOf[msg.sender] -= _amount;
+        totalSupply -= _amount;
+        emit Transfer(msg.sender, address(0), _amount);
+    }
     //pause
     //unpause
     //renounceownsership
